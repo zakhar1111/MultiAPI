@@ -1,0 +1,50 @@
+﻿
+FEATURES of store
+connected to other API
+- weather news - https://openweathermap.org/current  https://openweathermap.org/city/703448
+- time local   -  sunRise  = https://sunrise-sunset.org/api 
+               -  time API =  https://www.timeapi.io/
+- background pic - https://api.nasa.gov/  https://developers.giphy.com/
+- sentiments   - get % feadback rate by comments == analysis AI
+- translater   - Google, WordsAPI
+- book converter - 
+
+- book API     - looking -  https://rapidapi.com/collection/best-book-api
+               - https://openlibrary.org/api/books?bibkeys=ISBN:0451526538&callback=mycallback
+
+https://github.com/zakhar1111/MultiAPI
+
+
+list of API
+https://rapidapi.com/blog/most-popular-api/?utm_source=google&utm_medium=cpc&utm_campaign=Beta&utm_term=%2Bbest%20%2Bfree%20%2Bapi_b&gclid=Cj0KCQiA09eQBhCxARIsAAYRiylZ-5G-nRdyxtSbd4uJklymM4XQRZPLolYa5RJNLJ9COq-tsPsXi58aAtxwEALw_wcB
+
+
+BookStore -  https://www.codeproject.com/Articles/63715/BookStore
+https://www.c-sharpcorner.com/code/3301/google-books-search-with-c-sharp.aspx
+https://www.c-sharpcorner.com/article/google-pexel-photo-search-using-react/
+
+API--Domain--DATA
+https://www.infoq.com/articles/advanced-architecture-aspnet-core/
+
+tutorial - API
+https://medium.com/free-code-camp/an-awesome-guide-on-how-to-build-restful-apis-with-asp-net-core-87b818123e28
+
+
+https://rapidapi.com/category/Search
+
+#@@@@@@@@@@@@@@@@@  https://api.nasa.gov/ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Generate API Key 
+Your API key for zakharseva1980@gmail.com is:
+
+jP9U9rSuBv73vWnw4KyapfYJt7BzpK71ZI4bcTZn
+You can start using this key to make web service requests. Simply pass your key in the URL when making a web request. Here's an example:
+
+https://api.nasa.gov/planetary/apod?api_key=jP9U9rSuBv73vWnw4KyapfYJt7BzpK71ZI4bcTZn
+For additional support, please contact us. When contacting us, please tell us what API you're accessing and provide the following account details so we can quickly find you:
+
+Account Email: zakharseva1980@gmail.com
+Account ID: c86aa9e5-6952-4660-af1d-faf9760805aa
+
+
+#@@@@@@@@@@ req 
+{"date":"2022-02-22","explanation":"What did the first quasars look like?  The nearest quasars are now known to involve supermassive black holes in the centers of active galaxies.  Gas and dust that falls toward a quasar glows brightly, sometimes outglowing the entire home galaxy.  The quasars that formed in the first billion years of the universe are more mysterious, though. Featured, recent data has enabled an artist's impression of an early-universe quasar as it might have been: centered on a massive black hole, surrounded by sheets of gas and an accretion disk, and expelling a powerful jet. Quasars are among the most distant objects we see and give humanity unique information about the early and intervening universe. The oldest quasars currently known are seen at just short of redshift 8 -- only 700 million years after the Big Bang -- when the universe was only a few percent of its current age.","hdurl":"https://apod.nasa.gov/apod/image/2202/Quasar_EsoKormesser_4112.jpg","media_type":"image","service_version":"v1","title":"Illustration: An Early Quasar","url":"https://apod.nasa.gov/apod/image/2202/Quasar_EsoKormesser_1080.jpg"}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -66,7 +67,8 @@ namespace Weather.API.Controllers
 
         private string getWeather(string city)
         {
-            var url = AddCityToUri(city); 
+            var url = AddCityToUri(city);
+            //var s = new HttpClient();
             using (var web = new WebClient())
             {
                 var json = web.DownloadString(url);
