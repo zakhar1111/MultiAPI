@@ -11,72 +11,34 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 using Weather.API.Model;
+using Weather.API.Services;
 
 namespace Weather.API.Controllers
 {
-    [Route("api/[controller]")]   
-    [ApiController]              
+    [Route("api/[controller]")]
+    [ApiController]
     public class WeatherController : ControllerBase
     {
-        private IConfigurationRoot ConfigRoot;
-        public WeatherController(IConfiguration configRoot)
+        private readonly IWeatherService _weatherService;
+
+        public WeatherController(IWeatherService weatherService)
         {
-            ConfigRoot = (IConfigurationRoot)configRoot;
+            _weatherService = weatherService;
         }
 
-
-        [HttpGet]                
-        public string Get()
+        [HttpGet]
+        public async Task<WeatherObject> Get()
         {
-            return getWeather(this.DefaultLocation);
-            
+            var content = await _weatherService.Get();
+            return JsonConvert.DeserializeObject<WeatherObject>(content);
         }
 
         [HttpGet("{id}", Name = "Get")]
-        public string Get(string id)
+        public async Task<WeatherObject> Get(string id)
         {
-            return getWeather(id);
+            var content = await _weatherService.Get(id);
+            var weatherObject = JsonConvert.DeserializeObject<WeatherObject>(content);
+            return weatherObject;
         }
-
-        
-      
-        public string DefaultLocation
-        {
-            get
-            { 
-                string location = ConfigRoot.GetValue<string>("Location:Default");
-                return location;
-            }
-        }
-
-        public string APPID
-        {
-            get
-            {
-                string weatherAppID = ConfigRoot.GetValue<string>("EndPoint:APPID");
-                return weatherAppID;
-            }
-        }
-
-        
-
-        private string AddCityToUri(string city)
-        {
-            return $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={APPID}&units=metric&cnt=1";
-        }
-
-        private string getWeather(string city)
-        {
-            var url = AddCityToUri(city);
-            //var s = new HttpClient();
-            using (var web = new WebClient())
-            {
-                var json = web.DownloadString(url);
-                var result = JsonConvert.DeserializeObject<WeatherType.root>(json);
-                WeatherType.root outPut = result;
-                return outPut.ToString();
-            }
-        }
-     
     }
 }

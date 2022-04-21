@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weather.API.Services;
 
 namespace Weather.API
 {
@@ -26,6 +27,10 @@ namespace Weather.API
         {
 
             services.AddControllers();
+            services.AddHttpClient<IWeatherService, WeatherService>(c =>
+            {
+                c.BaseAddress = new Uri($"https://api.openweathermap.org/data/2.5/weather");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
