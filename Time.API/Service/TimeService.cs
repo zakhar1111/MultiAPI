@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Time.API.Exceptions;
 using Time.API.Model;
 using Time.API.Service.Exceptions;
 
@@ -19,43 +21,34 @@ namespace Time.API.Service
             _httpClient = httpClient;
         }
 
-        private static async Task EnsureSuccess(HttpStatusCode statusCode, HttpContent content)
+        private static  void  EnsureSuccess(HttpStatusCode statusCode)
         {
-            if (statusCode == HttpStatusCode.OK)
-            {
-                return;
-            }
-            var httpContent = await content.ReadAsStringAsync().ConfigureAwait(false);
-
             switch (statusCode)
             {
                 case HttpStatusCode.BadRequest:
-                    throw new TimeServiceInvalidZone($"Time service cal result Bad Request: {httpContent}");
-                default:
-                    throw new Exception($"Time service cal result unexpected: {httpContent}");
+                    throw new TimeBadRequestException("Bad Request of TimeService");
 
+                case HttpStatusCode.InternalServerError:
+                    throw new TimeInternalServerErrorException($" InternalServerError of TimeService");
             }
+            return;
         }
         public async Task<TimeRoot> GetLocal()
         {
-                HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/kiev");
-                //await EnsureSuccess(response.StatusCode, response.Content);
+            HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/kiev");
+            EnsureSuccess(response.StatusCode);
 
-                var content = await response.Content.ReadAsStringAsync();
-
-                TimeRoot timeContent = JsonConvert.DeserializeObject<TimeRoot>(content);
-                return timeContent;
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<TimeRoot>(content);
         }
 
         public async Task<TimeRoot> GetTime(string city)
         {
-                HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/{city}");
-                //await EnsureSuccess(response.StatusCode, response.Content);
+            HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/{city}");
+            EnsureSuccess(response.StatusCode);
 
-                var content = await response.Content.ReadAsStringAsync();
-
-                TimeRoot timeContent = JsonConvert.DeserializeObject<TimeRoot>(content);
-                return timeContent;
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<TimeRoot>(content);
         }
 
 
