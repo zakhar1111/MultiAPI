@@ -28,7 +28,13 @@ namespace Time.API
 
             services.AddControllers();
 
-            services.AddTransient<ITimeService, TimeService>();
+            services.AddHttpClient<ITimeService, TimeService>(c => 
+            {
+                c.BaseAddress = new Uri(Configuration.GetValue<string>("EndPoint:TimeAPI"));
+                c.DefaultRequestHeaders.Accept.Clear();
+                c.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

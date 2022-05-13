@@ -12,14 +12,16 @@ namespace Time.API.Service
     public class TimeService : ITimeService
     {
 
-        private IConfigurationRoot ConfigRoot;
+       // private IConfigurationRoot ConfigRoot;
+        private readonly HttpClient _httpClient;
 
-        public TimeService(IConfiguration configRoot)
+        public TimeService(HttpClient httpClient)//IConfiguration configRoot, 
         {
-            ConfigRoot = (IConfigurationRoot)configRoot;
+            //ConfigRoot = (IConfigurationRoot)configRoot;
+            _httpClient = httpClient;
         }
 
-        public Uri BaseUri => new Uri(ConfigRoot.GetValue<string>("EndPoint:TimeAPI"));
+       /* public Uri BaseUri => new Uri(ConfigRoot.GetValue<string>("EndPoint:TimeAPI"));
         private HttpClient GetClient()
         {
             var client = new HttpClient();
@@ -28,7 +30,7 @@ namespace Time.API.Service
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
             return client;
-        }
+        }*/
 
         private static async Task EnsureSuccess(HttpStatusCode statusCode, HttpContent content)
         {
@@ -49,30 +51,30 @@ namespace Time.API.Service
         }
         public async Task<TimeRoot> GetLocal()
         {
-            using (var client = this.GetClient())
-            {
-                HttpResponseMessage response = await client.GetAsync($"/api/Time/current/zone?timeZone=Europe/kiev");
-                await EnsureSuccess(response.StatusCode, response.Content);
+            //using (var client = this.GetClient())
+            //{
+                HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/kiev");
+                //await EnsureSuccess(response.StatusCode, response.Content);
 
                 var content = await response.Content.ReadAsStringAsync();
 
                 TimeRoot timeContent = JsonConvert.DeserializeObject<TimeRoot>(content);
                 return timeContent;
-            }
+            //}
         }
 
         public async Task<TimeRoot> GetTime(string city)
         {
-            using (var client = this.GetClient())
-            {
-                HttpResponseMessage response = await client.GetAsync($"/api/Time/current/zone?timeZone=Europe/{city}");
-                await EnsureSuccess(response.StatusCode, response.Content);
+            //using (var client = this.GetClient())
+            //{
+                HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/{city}");
+                //await EnsureSuccess(response.StatusCode, response.Content);
 
                 var content = await response.Content.ReadAsStringAsync();
 
                 TimeRoot timeContent = JsonConvert.DeserializeObject<TimeRoot>(content);
                 return timeContent;
-            }
+            //}
         }
 
 
