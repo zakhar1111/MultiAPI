@@ -5,6 +5,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Time.API.Exceptions;
 using Time.API.Model;
 using Time.API.Service;
 //using System.Web.Http;
@@ -33,8 +34,17 @@ namespace Weather.API.Controllers
         [Route("europe/{id}")]
         public async Task<ActionResult<TimeRoot>> Get(string id)
         {
-            TimeRoot timeContent = await _timeService.GetTime(id);
-            return new OkObjectResult(timeContent);
+            try
+            {
+                TimeRoot timeContent = await _timeService.GetTime(id);
+                return new OkObjectResult(timeContent);
+            }
+            catch (TimeException e)
+            {
+
+                return BadRequest(e.Message) ;
+            } 
+            
         }
     }
 }
