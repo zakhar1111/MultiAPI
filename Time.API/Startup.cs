@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Time.API.Middlewares;
 using Time.API.Service;
 
 namespace Time.API
@@ -27,7 +28,7 @@ namespace Time.API
         {
 
             services.AddControllers();
-
+            services.AddTransient<TimeExceptionMiddleware>();
             services.AddHttpClient<ITimeService, TimeService>(c => 
             {
                 c.BaseAddress = new Uri(Configuration.GetValue<string>("EndPoint:TimeAPI"));
@@ -46,6 +47,7 @@ namespace Time.API
             }
 
             app.UseRouting();
+            app.UseMiddleware<TimeExceptionMiddleware>();
 
             app.UseAuthorization();
 

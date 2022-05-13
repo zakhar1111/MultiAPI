@@ -34,17 +34,8 @@ namespace Weather.API.Controllers
         [Route("europe/{id}")]
         public async Task<ActionResult<TimeRoot>> Get(string id)
         {
-            try
-            {
-                TimeRoot timeContent = await _timeService.GetTime(id);
-                return new OkObjectResult(timeContent);
-            }
-            catch (TimeException e)
-            {
-
-                return BadRequest(e.Message) ;
-            } 
-            
+            TimeRoot timeContent = await _timeService.GetTime(id);
+            return new OkObjectResult(timeContent);
         }
     }
 }
