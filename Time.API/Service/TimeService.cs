@@ -33,22 +33,19 @@ namespace Time.API.Service
             }
             return;
         }
-        public async Task<TimeRoot> GetLocal()
+        public async Task<DtoTime> GetLocal()
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/kiev");
-            EnsureSuccess(response.StatusCode);
-
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TimeRoot>(content);
+            return await this.GetTime("kiev");
         }
 
-        public async Task<TimeRoot> GetTime(string city)
+        public async Task<DtoTime> GetTime(string city)
         {
+            
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/{city}");
             EnsureSuccess(response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TimeRoot>(content);
+            return JsonConvert.DeserializeObject<DtoTime>(content);
         }
 
 

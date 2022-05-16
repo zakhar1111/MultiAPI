@@ -24,17 +24,17 @@ namespace Weather.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<TimeRoot>> Get()
+        public async Task<IActionResult> Get()
         {
-            TimeRoot timeLocalContent = await _timeService.GetLocal();
+            var timeLocalContent = await _timeService.GetLocal();
             return new OkObjectResult(timeLocalContent);
         }
 
         [HttpGet("{id}", Name = "Get")]
         [Route("europe/{id}")]
-        public async Task<ActionResult<TimeRoot>> Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
-            TimeRoot timeContent = await _timeService.GetTime(id);
+            var timeContent = await _timeService.GetTime(id);
             return new OkObjectResult(timeContent);
         }
     }
