@@ -30,16 +30,8 @@ namespace Time.API
 
             services.AddControllers();
             services.AddTransient<TimeExceptionMiddleware>();
-            services.AddHttpClient<ITimeService, TimeService>(c => 
-            {
-                c.BaseAddress = new Uri(Configuration.GetValue<string>("EndPoint:TimeAPI"));
-                c.DefaultRequestHeaders.Accept.Clear();
-                c.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            });
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Time.API", Version = "v1" });
-            });
+            ConfigureTimeService(services);
+            ConfigureSwaggerService(services);
 
         }
 
@@ -49,8 +41,7 @@ namespace Time.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Books.API v1"));
+                UseSwaggerUi(app);
             }
 
             app.UseRouting();
@@ -61,6 +52,35 @@ namespace Time.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+        }
+
+        private void UseSwaggerUi(IApplicationBuilder app)
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Books.API v1"));
+
+        }
+
+        private static void ConfigureSwaggerService(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "Time.API", 
+                    Version = "v1" 
+                });
+            });
+        }
+
+        private void ConfigureTimeService(IServiceCollection services)
+        {
+            services.AddHttpClient<ITimeService, TimeService>(c =>
+            {
+                c.BaseAddress = new Uri(Configuration.GetValue<string>("EndPoint:TimeAPI"));
+                c.DefaultRequestHeaders.Accept.Clear();
+                c.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             });
         }
     }
