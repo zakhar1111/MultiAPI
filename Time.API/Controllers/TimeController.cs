@@ -30,11 +30,11 @@ namespace Weather.API.Controllers
             return new OkObjectResult(timeLocalContent);
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        [Route("europe/{id}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet("{cityName}", Name = "Get")]
+        //[Route("europe/{id}")]
+        public async Task<IActionResult> Get(string cityName)
         {
-            var timeContent = await _timeService.GetTime(id);
+            var timeContent = await _timeService.GetTime(cityName);
             return new OkObjectResult(timeContent);
         }
     }
