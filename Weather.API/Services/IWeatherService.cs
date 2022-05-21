@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Weather.API.Model;
 
 namespace Weather.API.Services
 {
     public interface IWeatherService
     {
-        Task<string> Get();
-        Task<string> Get(string cityName);
+        Task<WeatherObject> Get();
+        Task<WeatherObject> Get(string cityName);
     }
 }

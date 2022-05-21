@@ -27,18 +27,17 @@ namespace Weather.API.Controllers
         }
 
         [HttpGet]
-        public async Task<WeatherObject> Get()
+        public async Task<IActionResult> Get()
         {
-            var content = await _weatherService.Get();
-            return JsonConvert.DeserializeObject<WeatherObject>(content);
+            var weatherDefaultContent = await _weatherService.Get();
+            return new OkObjectResult(weatherDefaultContent);
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<WeatherObject> Get(string id)
+        [HttpGet("{city}", Name = "Get")]
+        public async Task<IActionResult> Get(string city)
         {
-            var content = await _weatherService.Get(id);
-            var weatherObject = JsonConvert.DeserializeObject<WeatherObject>(content);
-            return weatherObject;
+            var content = await _weatherService.Get(city);
+            return new OkObjectResult(content);
         }
     }
 }
