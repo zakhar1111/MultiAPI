@@ -23,11 +23,21 @@ namespace APIs.Test
         }
 
         [Test]
-        public void Get_WhenCalled_ReturnOk()
+        public void GetLocalTime_WhenCalled_ReturnOk()
         {
             _timeServiceMock.Setup(x => x.GetLocal());
 
             var result = _timeController.Get().GetAwaiter().GetResult();
+
+            result.Should().BeOfType(typeof(OkObjectResult));
+        }
+
+        [Test]
+        public async Task GetLocalTimeAsync_WhenCalled_ReturnsOk()
+        {
+            _timeServiceMock.Setup(x => x.GetLocal());
+
+            var result = await _timeController.Get();
 
             result.Should().BeOfType(typeof(OkObjectResult));
         }
@@ -42,6 +52,18 @@ namespace APIs.Test
 
             result.Should().BeOfType(typeof(OkObjectResult));
         }
+
+        [Test]
+        public async Task GetCityTimeAsync_WhenCalled_ReturnOk()
+        {
+            var testTime = await TestGetLocalAsync();
+            _timeServiceMock.Setup(x => x.GetTime("kiev")).ReturnsAsync(testTime);
+
+            var result = await _timeController.Get("kiev");
+
+            result.Should().BeOfType(typeof(OkObjectResult));
+        }
+
         [Test]
         public void TestGetTime()
         {
@@ -71,6 +93,18 @@ namespace APIs.Test
                 time = "20:18"
             };
             return Task.FromResult(time);   
-    }
+        }
+
+        private async Task<DtoTime> TestGetLocalAsync()
+        {
+            var time = new DtoTime
+            {
+                timeZone = "Europe/Kiev",
+                date = "05/20/2022",
+                dayOfWeek = "Friday",
+                time = "20:18"
+            };
+            return await Task.FromResult(time);//Task.FromResult(time);
+        }
     }
 }
