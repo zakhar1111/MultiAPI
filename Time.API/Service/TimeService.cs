@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -15,32 +16,43 @@ namespace Time.API.Service
     {
 
         private readonly HttpClient _httpClient;
+        private readonly ILogger<TimeService> _logger;
 
-        public TimeService(HttpClient httpClient) 
+        public TimeService(HttpClient httpClient, ILogger<TimeService> logger) 
         {
             _httpClient = httpClient;
+            _logger = logger;
+            _logger.LogInformation("Create TimeService");
         }
 
-        private static  void  EnsureSuccess(HttpStatusCode statusCode)
+        private  void  EnsureSuccess(HttpStatusCode statusCode)
         {
             switch (statusCode)
             {
                 case HttpStatusCode.BadRequest:
-                    throw new TimeBadRequestException("Bad Request of TimeService");
-
+                    {
+                        _logger.LogError($"TimeService threw {statusCode}");
+                        throw new TimeBadRequestException("Bad Request of TimeService");
+                    }
                 case HttpStatusCode.InternalServerError:
-                    throw new TimeInternalServerErrorException($" InternalServerError of TimeService");
+                    {
+                        _logger.LogError($"TimeService threw {statusCode}");
+                        throw new TimeInternalServerErrorException($" InternalServerError of TimeService");
+                    }
+                    
             }
+            _logger.LogInformation($" TimeService return {statusCode} on time-request ");
             return;
         }
         public async Task<DtoTime> GetLocal()
         {
+            _logger.LogInformation(" Request time for  default city  in TimeService ");
             return await this.GetTime("kiev");
         }
 
         public async Task<DtoTime> GetTime(string city)
         {
-            
+            _logger.LogInformation($"Request time for  {city} in TimeService ");
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/{city}");
             EnsureSuccess(response.StatusCode);
 
