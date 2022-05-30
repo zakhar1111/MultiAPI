@@ -31,7 +31,6 @@ namespace APIs.Test
 
             result.Should().BeOfType(typeof(OkObjectResult));
         }
-
         [Test]
         public async Task GetLocalTimeAsync_WhenCalled_ReturnsOk()
         {
@@ -41,6 +40,8 @@ namespace APIs.Test
 
             result.Should().BeOfType(typeof(OkObjectResult));
         }
+
+
 
         [Test]
         public void Get_withCity_WhenCalled_ReturnOk()
@@ -52,7 +53,6 @@ namespace APIs.Test
 
             result.Should().BeOfType(typeof(OkObjectResult));
         }
-
         [Test]
         public async Task GetCityTimeAsync_WhenCalled_ReturnOk()
         {
@@ -63,6 +63,8 @@ namespace APIs.Test
 
             result.Should().BeOfType(typeof(OkObjectResult));
         }
+
+
 
         [Test]
         public void TestGetTime()
@@ -83,8 +85,12 @@ namespace APIs.Test
            
         }
 
+
+
+
+
         private Task<DtoTime> TestGetLocal()
-        {
+        {//TODO remove this method by AutoFixture
             var time = new DtoTime
             {
                 timeZone = "Europe/Kiev",
@@ -96,7 +102,7 @@ namespace APIs.Test
         }
 
         private async Task<DtoTime> TestGetLocalAsync()
-        {
+        {//TODO remove this method by AutoFixture
             var time = new DtoTime
             {
                 timeZone = "Europe/Kiev",

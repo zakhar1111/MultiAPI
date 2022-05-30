@@ -31,28 +31,29 @@ namespace Time.API.Service
             {
                 case HttpStatusCode.BadRequest:
                     {
-                        _logger.LogError($"TimeService threw {statusCode}");
+                        _logger.LogError("TimeService threw {statusCode}", statusCode);
                         throw new TimeBadRequestException("Bad Request of TimeService");
                     }
                 case HttpStatusCode.InternalServerError:
                     {
-                        _logger.LogError($"TimeService threw {statusCode}");
+                        _logger.LogError("TimeService threw {statusCode}", statusCode);
                         throw new TimeInternalServerErrorException($" InternalServerError of TimeService");
                     }
                     
             }
-            _logger.LogInformation($" TimeService return {statusCode} on time-request ");
+            _logger.LogInformation("TimeService return {statusCode} on time-request ", statusCode);
             return;
         }
         public async Task<DtoTime> GetLocal()
         {
-            _logger.LogInformation(" Request time for  default city  in TimeService ");
+            _logger.LogInformation("Request time for  default city  in TimeService ");
             return await this.GetTime("kiev");
         }
 
         public async Task<DtoTime> GetTime(string city)
         {
-            _logger.LogInformation($"Request time for  {city} in TimeService ");
+            _logger.LogInformation("Request time for  {city} in TimeService ", city);
+            //_logger.Log(LogLevel.Information, "Request time for  {city} in TimeService ", city);
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/{city}");
             EnsureSuccess(response.StatusCode);
 
