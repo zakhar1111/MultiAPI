@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Time.API.Middlewares;
+using Time.API.Profiles;
 using Time.API.Service;
 
 namespace Time.API
@@ -29,6 +30,7 @@ namespace Time.API
         {
 
             services.AddControllers();
+            ConfigureAutoMapper(services);
             services.AddTransient<TimeExceptionMiddleware>();
             ConfigureTimeService(services);
             ConfigureSwaggerService(services);
@@ -55,6 +57,7 @@ namespace Time.API
             });
         }
 
+
         private void UseSwaggerUi(IApplicationBuilder app)
         {
             app.UseSwagger();
@@ -74,6 +77,11 @@ namespace Time.API
             });
         }
 
+        private void ConfigureAutoMapper(IServiceCollection services)
+        { 
+            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(typeof(TimeProfile).Assembly);
+        }
         private void ConfigureTimeService(IServiceCollection services)
         {
             services.AddHttpClient<ITimeService, TimeService>(c =>

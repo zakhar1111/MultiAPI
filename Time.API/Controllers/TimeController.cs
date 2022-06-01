@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -17,17 +18,19 @@ namespace Weather.API.Controllers
     public class TimeController : ControllerBase
     {
         private readonly ITimeService _timeService;
+        private readonly IMapper _mapper;
 
-        public TimeController(ITimeService timeService)
+        public TimeController(ITimeService timeService, IMapper mapper)
         {
-            _timeService = timeService;  
+            _timeService = timeService ?? throw new ArgumentNullException(nameof(timeService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); ;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             var timeLocalContent = await _timeService.GetLocal();
-            return new OkObjectResult(timeLocalContent);
+            return new OkObjectResult(_mapper.Map<DtoTime>(timeLocalContent));
         }
 
         [HttpGet("{cityName}", Name = "Get")]
@@ -35,7 +38,11 @@ namespace Weather.API.Controllers
         public async Task<IActionResult> Get(string cityName)
         {
             var timeContent = await _timeService.GetTime(cityName);
-            return new OkObjectResult(timeContent);
+            if (timeContent == null)
+            {
+                return NotFound(); 
+            }
+            return Ok(_mapper.Map<DtoTime>(timeContent));
         }
     }
 }

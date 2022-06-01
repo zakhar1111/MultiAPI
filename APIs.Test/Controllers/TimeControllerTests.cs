@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -13,13 +14,15 @@ namespace APIs.Test
     public class TimeControllerTests
     {
         private Mock<ITimeService> _timeServiceMock;
+        private Mock<IMapper> _mapperMock;
         private TimeController _timeController;
 
         [SetUp]
         public void Setup()
         {
             _timeServiceMock = new Mock<ITimeService>();
-            _timeController = new TimeController(_timeServiceMock.Object);
+            _mapperMock = new Mock<IMapper>();
+            _timeController = new TimeController(_timeServiceMock.Object, _mapperMock.Object);
         }
 
         [Test]
@@ -89,9 +92,9 @@ namespace APIs.Test
 
 
 
-        private Task<DtoTime> TestGetLocal()
+        private Task<TimeRoot> TestGetLocal()
         {//TODO remove this method by AutoFixture
-            var time = new DtoTime
+            var time = new TimeRoot
             {
                 timeZone = "Europe/Kiev",
                 date = "05/20/2022",
@@ -101,9 +104,9 @@ namespace APIs.Test
             return Task.FromResult(time);   
         }
 
-        private async Task<DtoTime> TestGetLocalAsync()
-        {//TODO remove this method by AutoFixture
-            var time = new DtoTime
+        private async Task<TimeRoot> TestGetLocalAsync()
+        {//TODO remove this TimeRoot by AutoFixture
+            var time = new TimeRoot
             {
                 timeZone = "Europe/Kiev",
                 date = "05/20/2022",

@@ -5,7 +5,7 @@ namespace Time.API.Service
 {
     public interface ITimeService
     {
-        Task<DtoTime> GetLocal();
-        Task<DtoTime> GetTime(string city);
+        Task<TimeRoot> GetLocal();
+        Task<TimeRoot> GetTime(string city);
     }
 }

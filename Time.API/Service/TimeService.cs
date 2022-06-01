@@ -44,21 +44,22 @@ namespace Time.API.Service
             _logger.LogInformation("TimeService return {statusCode} on time-request ", statusCode);
             return;
         }
-        public async Task<DtoTime> GetLocal()
+        public async Task<TimeRoot> GetLocal()
         {
             _logger.LogInformation("Request time for  default city  in TimeService ");
             return await this.GetTime("kiev");
         }
 
-        public async Task<DtoTime> GetTime(string city)
+        public async Task<TimeRoot> GetTime(string city)
         {
             _logger.LogInformation("Request time for  {city} in TimeService ", city);
             //_logger.Log(LogLevel.Information, "Request time for  {city} in TimeService ", city);
+
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/{city}");
             EnsureSuccess(response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<DtoTime>(content);
+            return JsonConvert.DeserializeObject<TimeRoot>(content);
         }
 
 
