@@ -66,7 +66,7 @@ namespace Time.API
         }
 
         private static void ConfigureSwaggerService(IServiceCollection services)
-        {
+        {//TODO refactor -  extension method - like static class SwaggerRegister{}.ConfigureSwaggerService()
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo 
@@ -78,12 +78,13 @@ namespace Time.API
         }
 
         private void ConfigureAutoMapper(IServiceCollection services)
-        { 
+        {//TODO refactor - extension method - like static class AutoMapperRegister{}.ConfigureAutoMapper()
             //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddAutoMapper(typeof(TimeProfile).Assembly);
         }
         private void ConfigureTimeService(IServiceCollection services)
-        {
+        {//TODO refactor - extension method - like static class TimeServiceRegister{}.ConfigureTimeService()
+            //see https://github.com/T0shik/raw-coding-101-aspnetcore-tutorials/blob/master/IHttpClientFactory/Api.Client/ApiClientRegister.cs
             services.AddHttpClient<ITimeService, TimeService>(c =>
             {
                 c.BaseAddress = new Uri(Configuration.GetValue<string>("EndPoint:TimeAPI"));

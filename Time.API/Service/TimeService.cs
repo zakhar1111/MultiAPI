@@ -59,7 +59,7 @@ namespace Time.API.Service
             EnsureSuccess(response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TimeRoot>(content);
+            return JsonConvert.DeserializeObject<TimeRoot>(content);//TODO - try to use System.Net.Http.Json package for deserialize
         }
 
 
