@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Time.API.Helpers;
 using Time.API.Middlewares;
 using Time.API.Profiles;
 using Time.API.Service;
@@ -28,13 +29,11 @@ namespace Time.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-            ConfigureAutoMapper(services);
+            services.ConfigureAutoMapper(); 
             services.AddTransient<TimeExceptionMiddleware>();
-            ConfigureTimeService(services);
-            ConfigureSwaggerService(services);
-
+            services.ConfigureTimeService(Configuration);
+            services.ConfigureSwaggerService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,32 +64,6 @@ namespace Time.API
 
         }
 
-        private static void ConfigureSwaggerService(IServiceCollection services)
-        {//TODO refactor -  extension method - like static class SwaggerRegister{}.ConfigureSwaggerService()
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo 
-                { 
-                    Title = "Time.API", 
-                    Version = "v1" 
-                });
-            });
-        }
 
-        private void ConfigureAutoMapper(IServiceCollection services)
-        {//TODO refactor - extension method - like static class AutoMapperRegister{}.ConfigureAutoMapper()
-            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddAutoMapper(typeof(TimeProfile).Assembly);
-        }
-        private void ConfigureTimeService(IServiceCollection services)
-        {//TODO refactor - extension method - like static class TimeServiceRegister{}.ConfigureTimeService()
-            //see https://github.com/T0shik/raw-coding-101-aspnetcore-tutorials/blob/master/IHttpClientFactory/Api.Client/ApiClientRegister.cs
-            services.AddHttpClient<ITimeService, TimeService>(c =>
-            {
-                c.BaseAddress = new Uri(Configuration.GetValue<string>("EndPoint:TimeAPI"));
-                c.DefaultRequestHeaders.Accept.Clear();
-                c.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            });
-        }
     }
 }
