@@ -26,7 +26,8 @@ namespace Time.API.Service
         }
 
         private  void  EnsureSuccess(HttpStatusCode statusCode)
-        {
+        {//TODO: Refactor it seems this code should be removed to somewhere
+            //TODO - logic has to be changed. remove wraping around status code. check city on null 
             switch (statusCode)
             {
                 case HttpStatusCode.BadRequest:
@@ -58,7 +59,7 @@ namespace Time.API.Service
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Time/current/zone?timeZone=Europe/{city}");
             EnsureSuccess(response.StatusCode);
 
-            var content = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();//TODO - replace by GetStringAsync()
             return JsonConvert.DeserializeObject<TimeRoot>(content);//TODO - try to use System.Net.Http.Json package for deserialize
         }
 

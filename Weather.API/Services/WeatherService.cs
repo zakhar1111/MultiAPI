@@ -14,7 +14,7 @@ namespace Weather.API.Services
         private HttpClient _httpClient;
 
         private string APPID
-        {
+        {//TODO - replace by Option Pattern
             get 
             { 
                 return _configRoot.GetValue<string>("EndPoint:APPID");
@@ -22,7 +22,7 @@ namespace Weather.API.Services
         }
       
         private string DefaultCity
-        {
+        {//TODO - replace by Option Pattern
             get 
             { 
                 return _configRoot.GetValue<string>("Location:Default");
@@ -30,7 +30,7 @@ namespace Weather.API.Services
         }
 
         public WeatherService(IConfiguration configRoot,HttpClient httpClient)
-        {
+        {//TODO - remove dependency for IConfiguration, move it to startup
             _configRoot = configRoot;
             _httpClient = httpClient;
         }
@@ -46,12 +46,13 @@ namespace Weather.API.Services
 
             EnsureSuccess(response.StatusCode);
 
-            var content =  await response.Content.ReadAsStringAsync();
+            var content =  await response.Content.ReadAsStringAsync();//TODO - replace by GetStringAsync()
             return JsonConvert.DeserializeObject<WeatherObject>(content);
         }
 
         private static void EnsureSuccess(HttpStatusCode statusCode)
-        {
+        {//TODO: Refactor it seems this code should be removed to somewhere
+            //TODO - logic should check city == null || empty
             if (statusCode == HttpStatusCode.BadRequest)
                 throw new WeatherBadRequestException("Bad Request of WeatherService");
             if (statusCode == HttpStatusCode.NotFound)

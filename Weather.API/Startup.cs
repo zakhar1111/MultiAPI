@@ -54,7 +54,7 @@ namespace Weather.API
         }
 
         private void ConfigureWeatherService(IServiceCollection services)
-        {
+        {//TODO - replace extension method WeatherServiceRegister.Configure(this IServiceCollection services, IConfiguration configuration)
             services.AddHttpClient<IWeatherService, WeatherService>(c =>
             {
                 c.BaseAddress = new Uri($"https://api.openweathermap.org/data/2.5/weather");
@@ -67,7 +67,7 @@ namespace Weather.API
 
         }
         private  void ConfigureSwaggerService(IServiceCollection services)
-        {
+        {//TODO - replace extension method SwaggerRegister.Configure(this IServiceCollection services)
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

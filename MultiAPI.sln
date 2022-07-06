@@ -5,7 +5,11 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.API", "Weather.API\Weather.API.csproj", "{214865F5-0F45-467E-A86B-A585A31F53DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Time.API", "Time.API\Time.API.csproj", "{EB5298A9-5C01-4CF6-8862-614ADD062978}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Time.API", "Time.API\Time.API.csproj", "{EB5298A9-5C01-4CF6-8862-614ADD062978}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.API", "Books.API\Books.API.csproj", "{AEB554C0-225D-485E-A0AD-7919EB114104}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIs.Test", "APIs.Test\APIs.Test.csproj", "{F5E9DA4D-924A-492E-920E-B88E88DFEE67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{EB5298A9-5C01-4CF6-8862-614ADD062978}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB5298A9-5C01-4CF6-8862-614ADD062978}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB5298A9-5C01-4CF6-8862-614ADD062978}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEB554C0-225D-485E-A0AD-7919EB114104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEB554C0-225D-485E-A0AD-7919EB114104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEB554C0-225D-485E-A0AD-7919EB114104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEB554C0-225D-485E-A0AD-7919EB114104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5E9DA4D-924A-492E-920E-B88E88DFEE67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5E9DA4D-924A-492E-920E-B88E88DFEE67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5E9DA4D-924A-492E-920E-B88E88DFEE67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5E9DA4D-924A-492E-920E-B88E88DFEE67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
