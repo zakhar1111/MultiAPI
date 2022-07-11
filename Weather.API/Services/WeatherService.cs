@@ -40,14 +40,16 @@ namespace Weather.API.Services
         }
 
         public async Task<WeatherObject> Get(string city)
-        {
+        {//TODO - add mapping RootWeather --> WeatherObject -- see 21 Rahul
+            //TODO - put Root object that return Weather[]
             string APIURL = $"?q={city}&appid={APPID}&units=metric&cnt=1";
             var response = await _httpClient.GetAsync(APIURL);
 
             EnsureSuccess(response.StatusCode);
 
             var content =  await response.Content.ReadAsStringAsync();//TODO - replace by GetStringAsync()
-            return JsonConvert.DeserializeObject<WeatherObject>(content);
+            var result = JsonConvert.DeserializeObject<WeatherObject>(content);
+            return result;
         }
 
         private static void EnsureSuccess(HttpStatusCode statusCode)
