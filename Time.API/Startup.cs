@@ -42,7 +42,7 @@ namespace Time.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                UseSwaggerUi(app);
+                app.ConfigureUseSwagger(env);
             }
 
             app.UseRouting();
@@ -55,15 +55,5 @@ namespace Time.API
                 endpoints.MapControllers();
             });
         }
-
-
-        private void UseSwaggerUi(IApplicationBuilder app)
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Books.API v1"));
-
-        }
-
-
     }
 }

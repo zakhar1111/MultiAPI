@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Weather.API.Helpers;
 using Weather.API.Middlewares;
 using Weather.API.Services;
 
@@ -29,8 +30,8 @@ namespace Weather.API
         {
             services.AddControllers();
             services.AddTransient<WeatherExceptionMiddleware>();
-            ConfigureWeatherService(services);
-            ConfigureSwaggerService(services);
+            services.ConfigureWeatherService(Configuration);
+            services.ConfigureSwaggerService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +40,7 @@ namespace Weather.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                UseSwaggerUi(app);
+                app.ConfigureUseSwagger(env);
             }
 
             app.UseRouting();
@@ -53,29 +54,5 @@ namespace Weather.API
             });
         }
 
-        private void ConfigureWeatherService(IServiceCollection services)
-        {//TODO - replace extension method WeatherServiceRegister.Configure(this IServiceCollection services, IConfiguration configuration)
-            services.AddHttpClient<IWeatherService, WeatherService>(c =>
-            {
-                c.BaseAddress = new Uri($"https://api.openweathermap.org/data/2.5/weather");
-            });
-        }
-        private void UseSwaggerUi(IApplicationBuilder app)
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Weather.API v1"));
-
-        }
-        private  void ConfigureSwaggerService(IServiceCollection services)
-        {//TODO - replace extension method SwaggerRegister.Configure(this IServiceCollection services)
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Weather.API",
-                    Version = "v1"
-                });
-            });
-        }
     }
 }
