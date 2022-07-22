@@ -35,7 +35,9 @@ namespace Weather.API.Controllers
 
         [HttpGet("{city}", Name = "Get")]
         public async Task<IActionResult> Get(string city)
-        { //TODO - add Mapping Rootobject to DTOWeather as 21 Rahul
+        {
+            //TODO - add mapping RootWeather --> WeatherObject -- see 21 Rahul
+            //TODO - add Mapping Rootobject to DTOWeather as 21 Rahul
             var content = await _weatherService.Get(city);
             return new OkObjectResult(content);
         }
