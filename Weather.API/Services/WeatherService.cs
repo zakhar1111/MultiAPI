@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,41 +10,42 @@ using Weather.API.Model;
 
 namespace Weather.API.Services
 {
+    public class WeatherServiceOptions
+    {
+        public const string EndPoint = "EndPoint";
+        public string APPID { get; set; }
+        public string Url { get; set; }
+        public string CityLocation { get;set; }
+
+    }
+
     public class WeatherService : IWeatherService
     {
-        private IConfiguration _configRoot;
         private HttpClient _httpClient;
+        private readonly WeatherServiceOptions serviceOptions;
 
-        private string APPID
-        {//TODO - replace by Option Pattern
-            get 
-            { 
-                return _configRoot.GetValue<string>("EndPoint:APPID");
-            }
-        }
-      
-        private string DefaultCity
-        {//TODO - replace by Option Pattern
-            get 
-            { 
-                return _configRoot.GetValue<string>("Location:Default");
-            }
-        }
-
-        public WeatherService(IConfiguration configRoot,HttpClient httpClient)
-        {//TODO - remove dependency for IConfiguration, move it to startup
-            _configRoot = configRoot;
+        public WeatherService(
+            HttpClient httpClient,
+            IOptions<WeatherServiceOptions> options
+            )
+        { 
+            serviceOptions = options.Value;
             _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri(serviceOptions.Url);
+
         }
         public async Task<WeatherObject> Get()
         {
-            return await Get(DefaultCity);
+            return await Get(serviceOptions.CityLocation);
         }
 
         public async Task<WeatherObject> Get(string city)
         {//TODO - add mapping RootWeather --> WeatherObject -- see 21 Rahul
             //TODO - put Root object that return Weather[]
-            string APIURL = $"?q={city}&appid={APPID}&units=metric&cnt=1";
+
+            string APIURL = $"?q={city}&appid={serviceOptions.APPID}&units=metric&cnt=1";
+
+            //TODO - var _httpClient = _httpClientFactory.CreateClient();
             var response = await _httpClient.GetAsync(APIURL);
 
             EnsureSuccess(response.StatusCode);
