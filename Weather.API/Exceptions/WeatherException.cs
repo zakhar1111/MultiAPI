@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Weather.API.Exceptions
-{
+{//TODO - ValidationException
     public class WeatherException : Exception
     {
         public WeatherException(string message) : base(message)
